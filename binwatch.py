@@ -22,6 +22,7 @@ secondc = hourc
 
 
 watchwidth = 6
+tickwidth = 3
 handsize = 12
 
 arc = 2*pi*.65
@@ -119,8 +120,8 @@ for (n, tick) in enumerate(ticks):
     # draw ticks
     rmin = 2.85
     rmax = 3.15
-    textr = 3.35
-    plot([rmin*cos(tick), rmax*cos(tick)], [rmin*sin(tick), rmax*sin(tick)], color=watchc)
+    textr = 3.5
+    plot([rmin*cos(tick), rmax*cos(tick)], [rmin*sin(tick), rmax*sin(tick)], color=watchc, linewidth = tickwidth)
     text(textr*cos(tick), textr*sin(tick), 2**n, ha="center", va="center", color=watchc)
 
     # create hands
