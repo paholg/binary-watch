@@ -6,12 +6,13 @@ import matplotlib
 from matplotlib import rc
 from matplotlib.lines import Line2D
 
+matplotlib.rcParams.update({
+    'font.size': 30,
+    'font.weight': 'bold'
+})
 
-rc('font', family='serif', serif ='Computer Modern')
-rc('text', usetex=True)
-matplotlib.rcParams.update({'font.size': 26})
-
-watchc = "#dddddd"
+bg = "#121218"
+watchc = "#93a1a1"
 hourc = "#dddd66"
 minutec = "#dddd66"
 secondc = "#dddd66"
@@ -49,7 +50,7 @@ def update():
 
 
 
-fig = figure(figsize=(20, 20), facecolor='#121218')
+fig = figure(figsize=(20, 20), facecolor=bg)
 ax = fig.add_subplot(111, aspect='equal')
 
 xlim(-3.5, 3.5)
@@ -59,11 +60,18 @@ yticks([])
 
 arc = 2*pi*.75
 
+phi0 = linspace(0, 2*pi, 1000)
 phi = linspace(-arc/2, arc/2, 1000)
+r_mid = 0
+r_hr = 1
+r_min = 2
+r_sec = 3
 
+plot(r_sec*cos(phi0), r_sec*sin(phi0), color=watchc, linewidth = watchwidth)
 
-for r in [1, 2, 3]:
+for r in [r_hr, r_min, r_sec]:
     plot(r*cos(phi), r*sin(phi), color=watchc, linewidth = watchwidth)
+
 
 plot([0, 3*cos(arc/2)], [0, 3*sin(arc/2)], color=watchc, linewidth = watchwidth)
 plot([0, 3*cos(-arc/2)], [0, 3*sin(-arc/2)], color=watchc, linewidth = watchwidth)
@@ -84,17 +92,13 @@ for (n, tick) in enumerate(ticks):
     text(textr*cos(tick), textr*sin(tick), 2**n, ha="center", va="center", color=watchc)
 
     # create hands
-    r_mid = 0
-    r_hr = 1
-    r_min = 2
-    r_sec = 3
 
-    plot(0, 0, '.', markersize = handsize*2)
 
     hours += [Line2D([r_mid*cos(tick), r_hr*cos(tick)], [r_mid*sin(tick), r_hr*sin(tick)], color=hourc, linewidth = handsize, solid_capstyle="butt")]
     minutes += [Line2D([r_hr*cos(tick), r_min*cos(tick)], [r_hr*sin(tick), r_min*sin(tick)], color=minutec, linewidth = handsize, solid_capstyle="butt")]
     seconds += [Line2D([r_min*cos(tick), r_sec*cos(tick)], [r_min*sin(tick), r_sec*sin(tick)], color=secondc, linewidth = handsize, solid_capstyle="butt")]
 
+plot(0, 0, '.', markersize = handsize*2, color=hourc)
 
 
 ax.set_frame_on(False)
