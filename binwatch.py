@@ -1,17 +1,15 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 import datetime, time
 from pylab import *
 import matplotlib
 from matplotlib import rc
 from matplotlib.lines import Line2D
-from matplotlib import animation
+
 
 rc('font', family='serif', serif ='Computer Modern')
 rc('text', usetex=True)
 matplotlib.rcParams.update({'font.size': 26})
-
-# ion()
 
 watchc = "#dddddd"
 hourc = "#dddd66"
@@ -36,7 +34,7 @@ def init():
     for line in hours + minutes + seconds:
         ax.add_line(line)
 
-def animate(i):
+def update():
     now = datetime.datetime.now().timetuple()
     hr_now = now.tm_hour
     min_now = now.tm_min
@@ -47,6 +45,7 @@ def animate(i):
             line.set_linestyle('-')
         else:
             line.set_linestyle('')
+
 
 
 
@@ -101,9 +100,13 @@ for (n, tick) in enumerate(ticks):
 ax.set_frame_on(False)
 axis('off')
 
+old_secs = 0
+
+
 init()
+
+update_time = time.time()
 while True:
-    t0 = time.clock()
-    animate(0)
-    dt = time.clock() - t0
-    pause(1.0 - dt)
+    update_time += 1
+    update()
+    pause(update_time - time.time())
