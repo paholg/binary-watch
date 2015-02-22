@@ -18,6 +18,11 @@ hourc = "#dddd66"
 minutec = "#dddd66"
 secondc = "#dddd66"
 
+
+watchwidth = 4
+handsize = 12
+
+
 # convert an integer to a list of bits. Only does the least significant 6 bits, as
 # that's what the watch uses
 def to_bits(n):
@@ -44,9 +49,6 @@ def animate(i):
             line.set_linestyle('')
 
 
-watchwidth = 2
-handsize = 5
-
 
 fig = figure(figsize=(20, 20), facecolor='#121218')
 ax = fig.add_subplot(111, aspect='equal')
@@ -59,6 +61,14 @@ yticks([])
 arc = 2*pi*.75
 
 phi = linspace(-arc/2, arc/2, 1000)
+
+
+for r in [1, 2, 3]:
+    plot(r*cos(phi), r*sin(phi), color=watchc, linewidth = watchwidth)
+
+plot([0, 3*cos(arc/2)], [0, 3*sin(arc/2)], color=watchc, linewidth = watchwidth)
+plot([0, 3*cos(-arc/2)], [0, 3*sin(-arc/2)], color=watchc, linewidth = watchwidth)
+
 
 hours = []
 minutes = []
@@ -75,15 +85,17 @@ for (n, tick) in enumerate(ticks):
     text(textr*cos(tick), textr*sin(tick), 2**n, ha="center", va="center", color=watchc)
 
     # create hands
-    hours += [Line2D([0, 1*cos(tick)], [0, 1*sin(tick)], color=hourc, linewidth = handsize)]
-    minutes += [Line2D([1*cos(tick), 2*cos(tick)], [1*sin(tick), 2*sin(tick)], color=minutec, linewidth = handsize)]
-    seconds += [Line2D([2*cos(tick), 3*cos(tick)], [2*sin(tick), 3*sin(tick)], color=secondc, linewidth = handsize)]
+    r_mid = 0
+    r_hr = 1
+    r_min = 2
+    r_sec = 3
 
-for r in [1, 2, 3]:
-    plot(r*cos(phi), r*sin(phi), color=watchc, linewidth = watchwidth)
+    plot(0, 0, '.', markersize = handsize*2)
 
-plot([0, 3*cos(arc/2)], [0, 3*sin(arc/2)], color=watchc, linewidth = watchwidth)
-plot([0, 3*cos(-arc/2)], [0, 3*sin(-arc/2)], color=watchc, linewidth = watchwidth)
+    hours += [Line2D([r_mid*cos(tick), r_hr*cos(tick)], [r_mid*sin(tick), r_hr*sin(tick)], color=hourc, linewidth = handsize, solid_capstyle="butt")]
+    minutes += [Line2D([r_hr*cos(tick), r_min*cos(tick)], [r_hr*sin(tick), r_min*sin(tick)], color=minutec, linewidth = handsize, solid_capstyle="butt")]
+    seconds += [Line2D([r_min*cos(tick), r_sec*cos(tick)], [r_min*sin(tick), r_sec*sin(tick)], color=secondc, linewidth = handsize, solid_capstyle="butt")]
+
 
 
 ax.set_frame_on(False)
@@ -91,7 +103,7 @@ axis('off')
 
 init()
 while True:
+    t0 = time.clock()
     animate(0)
-    pause(1.0)
-    # draw()
-    # time.sleep(1)
+    dt = time.clock() - t0
+    pause(1.0 - dt)
