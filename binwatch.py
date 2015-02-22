@@ -11,7 +11,7 @@ rc('font', family='serif', serif ='Computer Modern')
 rc('text', usetex=True)
 matplotlib.rcParams.update({'font.size': 26})
 
-ion()
+# ion()
 
 # convert an integer to a list of bits. Only does the least significant 6 bits, as
 # that's what the watch uses
@@ -85,5 +85,6 @@ plot([0, 3*cos(-arc/2)], [0, 3*sin(-arc/2)], 'k', linewidth = watchwidth)
 init()
 while True:
     animate(0)
-    draw()
-    time.sleep(1)
+    pause(1.0)
+    # draw()
+    # time.sleep(1)
