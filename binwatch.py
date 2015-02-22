@@ -13,6 +13,11 @@ matplotlib.rcParams.update({'font.size': 26})
 
 # ion()
 
+watchc = "#dddddd"
+hourc = "#dddd66"
+minutec = "#dddd66"
+secondc = "#dddd66"
+
 # convert an integer to a list of bits. Only does the least significant 6 bits, as
 # that's what the watch uses
 def to_bits(n):
@@ -43,7 +48,7 @@ watchwidth = 2
 handsize = 5
 
 
-fig = figure(figsize=(20, 20))
+fig = figure(figsize=(20, 20), facecolor='#121218')
 ax = fig.add_subplot(111, aspect='equal')
 
 xlim(-3.5, 3.5)
@@ -66,21 +71,23 @@ for (n, tick) in enumerate(ticks):
     rmin = 2.85
     rmax = 3.15
     textr = 3.35
-    plot([rmin*cos(tick), rmax*cos(tick)], [rmin*sin(tick), rmax*sin(tick)], 'k')
-    text(textr*cos(tick), textr*sin(tick), 2**n, ha="center", va="center")
+    plot([rmin*cos(tick), rmax*cos(tick)], [rmin*sin(tick), rmax*sin(tick)], color=watchc)
+    text(textr*cos(tick), textr*sin(tick), 2**n, ha="center", va="center", color=watchc)
 
     # create hands
-    hours += [Line2D([0, 1*cos(tick)], [0, 1*sin(tick)], color='k', linewidth = handsize)]
-    minutes += [Line2D([1*cos(tick), 2*cos(tick)], [1*sin(tick), 2*sin(tick)], color='k', linewidth = handsize)]
-    seconds += [Line2D([2*cos(tick), 3*cos(tick)], [2*sin(tick), 3*sin(tick)], color='k', linewidth = handsize)]
+    hours += [Line2D([0, 1*cos(tick)], [0, 1*sin(tick)], color=hourc, linewidth = handsize)]
+    minutes += [Line2D([1*cos(tick), 2*cos(tick)], [1*sin(tick), 2*sin(tick)], color=minutec, linewidth = handsize)]
+    seconds += [Line2D([2*cos(tick), 3*cos(tick)], [2*sin(tick), 3*sin(tick)], color=secondc, linewidth = handsize)]
 
 for r in [1, 2, 3]:
-    plot(r*cos(phi), r*sin(phi), 'k', linewidth = watchwidth)
+    plot(r*cos(phi), r*sin(phi), color=watchc, linewidth = watchwidth)
 
-plot([0, 3*cos(arc/2)], [0, 3*sin(arc/2)], 'k', linewidth = watchwidth)
-plot([0, 3*cos(-arc/2)], [0, 3*sin(-arc/2)], 'k', linewidth = watchwidth)
+plot([0, 3*cos(arc/2)], [0, 3*sin(arc/2)], color=watchc, linewidth = watchwidth)
+plot([0, 3*cos(-arc/2)], [0, 3*sin(-arc/2)], color=watchc, linewidth = watchwidth)
 
 
+ax.set_frame_on(False)
+axis('off')
 
 init()
 while True:
