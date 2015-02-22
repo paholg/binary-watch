@@ -14,11 +14,11 @@ matplotlib.rcParams.update({
     'font.weight': 'bold',
 })
 
-bg = "#121218"
-watchc = "#93a1a1"
-hourc = "#dddd66"
-minutec = "#dddd66"
-secondc = "#dddd66"
+bg = "#222228"
+watchc = "#c0c0c0"
+hourc = "#ffd700"
+minutec = hourc
+secondc = hourc
 
 
 watchwidth = 6
@@ -97,7 +97,7 @@ r_cres = -r_sec/(2*cos(arc/2))
 for r in [r_hr, r_min, r_sec]:
     plot(r*cos(phi), r*sin(phi), color=watchc, linewidth = watchwidth, zorder = 3)
 
-ax.add_patch(Circle((-r_cres, 0), r_cres, fc = bg, zorder = 4))
+ax.add_patch(Circle((-r_cres, 0), r_cres, fc = bg, ec = 'none', zorder = 4))
 
 # arc for crescent:
 arc_c = 2*arcsin(r_sec/r_cres*sin(arc/2))
